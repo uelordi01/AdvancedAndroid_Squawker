@@ -15,6 +15,7 @@
 */
 package android.example.com.squawker.following;
 
+import android.content.SharedPreferences;
 import android.example.com.squawker.R;
 import android.os.Bundle;
 import android.support.v7.preference.PreferenceFragmentCompat;
@@ -23,7 +24,7 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 /**
  * Shows the list of instructors you can follow
  */
-public class FollowingPreferenceFragment extends PreferenceFragmentCompat {
+public class FollowingPreferenceFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private final static String LOG_TAG = FollowingPreferenceFragment.class.getSimpleName();
 
@@ -31,5 +32,24 @@ public class FollowingPreferenceFragment extends PreferenceFragmentCompat {
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         // Add visualizer preferences, defined in the XML file in res->xml->preferences_squawker
         addPreferencesFromResource(R.xml.following_squawker);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        String prueba = key;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getPreferenceScreen().getSharedPreferences()
+                .registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getPreferenceScreen().getSharedPreferences()
+                .unregisterOnSharedPreferenceChangeListener(this);
     }
 }
